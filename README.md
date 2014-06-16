@@ -15,3 +15,7 @@ Register your application as a developer on Twitter to get the necessary keys to
 Also register your account on Whatsapp to get the password to enter the script. 
 
 How to get the password for Whatsapp can be seen here: http://unknownsec.wordpress.com/2014/06/16/monitorar-hashtags-e-palavras-do-twitter-via-whatsapp/
+
+## Where it was created ##
+
+Debian GNU/Linux 7 3.2.0-4amd64
