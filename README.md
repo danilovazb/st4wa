@@ -40,6 +40,21 @@ username = ''
 keepAlive= False                                            
 ```
 
+##### Receptor number of messages #####
+
+Enter the number that will receive messages from twitter on line 67, enter the number in quotation marks.
+
+```
+wa = WhatsappEchoClient("NUMBER HERE", message, keepAlive)                                          
+```
+
+##### Words to monitor #####
+Words to monitor we can include them in line 77, to remember that we must include the words in the brackets ([]) with single quotes and separated by commas as in the example below.
+
+```
+setTerms = ['#FIFA2014', '#WordCup2014', 'Word Cup', '@FIFA']                                   
+```
+
 ### Where it was created ###
 
 Debian GNU/Linux 7 3.2.0-4amd64
