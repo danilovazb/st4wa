@@ -10,7 +10,7 @@ import os
 import base64
 ######################################################
  
-# Configuração da aplicação no dev.twitter.com
+# Configura??o da aplica??o no dev.twitter.com
 consumer_key = ''                                          
 consumer_secret = '' 
 access_token_key = ''
@@ -21,14 +21,14 @@ access_token_secret = ''
 from Yowsup.connectionmanager import YowsupConnectionManager
 from Examples.EchoClient import WhatsappEchoClient  
  
-# Configuração do yowsup para envio
+# Configura??o do yowsup para envio
 password = ""                                           #Password dada ao registrar o numero pelo yowsup.
 password = base64.b64decode(bytes(password.encode('utf-8')))                        #Codificacao do Password para envio aos servidores do whatsApp.
 username = ''                                                          #Numero de telefone para o inicio de secao
 keepAlive= False                                                                    #Conexao persistente com o servidor.
 ######################################################
  
-# Faz a autenticação com a conta no twitter através dos tokens que gerou
+# Faz a autentica??o com a conta no twitter atrav?s dos tokens que gerou
 auth1 = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth1.set_access_token(access_token_key, access_token_secret)
 ###################################################### 
@@ -36,7 +36,7 @@ auth1.set_access_token(access_token_key, access_token_secret)
 # Cria a classe para fazer o stream do twitter
 class StreamListener(tweepy.StreamListener):
    
-    # Pega o conteúdo do twitter, já em texto "puro"   
+    # Pega o conte?do do twitter, j? em texto "puro"   
     def on_status(self, tweet):
         print 'Ran on_status'
     # Pega os erros ocorridos
@@ -45,7 +45,7 @@ class StreamListener(tweepy.StreamListener):
         return False
     # Pega data como vem do twitter em json
     def on_data(self, data):
-        # Aqui eu usei o json para parsear o conteúdo vindo do twitter.
+        # Aqui eu usei o json para parsear o conte?do vindo do twitter.
         decoded = json.loads(data)
         
         # Abaixo ? um print do que quero ver do arquivo em json que vem.
@@ -73,6 +73,6 @@ class StreamListener(tweepy.StreamListener):
  
 l = StreamListener()
 streamer = tweepy.Stream(auth=auth1, listener=l)
-# Termos, palavras, hashtags utilizadas para a monitoração, s?o elas que estou monitorando e jogando no whatsapp.
+# Termos, palavras, hashtags utilizadas para a monitora??o, s?o elas que estou monitorando e jogando no whatsapp.
 setTerms = ['#OpMundial2014', '#OpHackingCup', 'anonymous','#naovaitercopa','Word Cup']
 streamer.filter(track = setTerms)
