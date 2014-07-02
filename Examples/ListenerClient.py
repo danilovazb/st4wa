@@ -30,34 +30,31 @@ if sys.version_info >= (3, 0):
 
 from Yowsup.connectionmanager import YowsupConnectionManager
 
-#password = "8LVUOD5ZDxJIRP1rF5zFdl1js60="                                    #Password dada ao registrar o numero pelo yowsup.
-#password = base64.b64decode(bytes(password.encode('utf-8')))    #Codificacao do Password para envio aos servidores do whatsApp.
-#username = '5511949152392'                                      #Numero de telefone para o inicio de secao
 keepAlive= False                                                #Conexao persistente com o servidor.
 
 class WhatsappListenerClient:
-	
+
 	def __init__(self, keepAlive = False, sendReceipts = False):
 		self.sendReceipts = sendReceipts
-		
+
 		connectionManager = YowsupConnectionManager()
 		connectionManager.setAutoPong(keepAlive)
 
 		self.signalsInterface = connectionManager.getSignalsInterface()
 		self.methodsInterface = connectionManager.getMethodsInterface()
-		
+
 		self.signalsInterface.registerListener("message_received", self.onMessageReceived)
 		self.signalsInterface.registerListener("auth_success", self.onAuthSuccess)
 		self.signalsInterface.registerListener("auth_fail", self.onAuthFailed)
 		self.signalsInterface.registerListener("disconnected", self.onDisconnected)
-		
+
 		self.cm = connectionManager
-	
+
 	def login(self, username, password):
 		self.username = username
 		self.methodsInterface.call("auth_login", (username, password))
-		
-		
+
+
 		while True:
 			raw_input()	
 
@@ -69,18 +66,11 @@ class WhatsappListenerClient:
 		print("Auth Failed!")
 
 	def onDisconnected(self, reason):
-		print("Disconnected because %s" %reason)
-		#wa = WhatsappListenerClient(args['keepalive'], args['autoack'])
-		#wa.login(login, password)	
-		
+		print("Disconnected because %s" %reason)	
+
 	def onMessageReceived(self, messageId, jid, messageContent, timestamp, wantsReceipt, pushName, isBroadCast):
 		formattedDate = datetime.datetime.fromtimestamp(timestamp).strftime('%d-%m-%Y %H:%M')
 		print("%s [%s]:%s"%(jid, formattedDate, messageContent))
 
-		#if messageContent == 'buceta':
-		#	print("lol")
-		#	os.system('python /home/danilo/c0d3r/Python/yowsup/src/yowsup-cli --send 5511948918069 "Nem sabe o que é e fica mandando no meu whatsapp, vai se fuder viado!! kkkk" --wait --config chip3.config')
-
 		if wantsReceipt and self.sendReceipts:
 			self.methodsInterface.call("message_ack", (jid, messageId))
-	
