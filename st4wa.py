@@ -8,6 +8,10 @@
 # Data: 01/07/2014                                                          #
 # - Add menu para facilitar                                                 #
 # - Add funcao de importar tags de pesquisa via arquivo (Ideia do @l0ganbr) #
+#                                                                           #
+# Data: 03/07/2014                                                          #
+# - Add server de pesquisa, onde enviada as tags de pesquisa via whatsapp   #
+# ele retorna a pesquisa do conteudo tanto via whatsapp ou por e-mail       #
 #############################################################################
  
 # Import das libs que vamos utilizar
