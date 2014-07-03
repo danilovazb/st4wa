@@ -20,7 +20,7 @@ import sys
 ######################################################
  
 # Configura??o da aplica??o no dev.twitter.com
-consumer_key = ''
+consumer_key = ''                                          
 consumer_secret = '' 
 access_token_key = ''
 access_token_secret = '' 
@@ -28,7 +28,9 @@ access_token_secret = ''
 
 # Import das libs para usar yowsup
 from Yowsup.connectionmanager import YowsupConnectionManager
-from Examples.EchoClient import WhatsappEchoClient  
+from Examples.EchoClient import WhatsappEchoClient
+from Examples.ListenerClient import WhatsappListenerClient
+from Examples.ListenerClientEmail import WhatsappListenerClientEmail
 
 # Configura??o do yowsup para envio
 password = ""                                           #Password dada ao registrar o numero pelo yowsup.
@@ -121,7 +123,8 @@ while ans:
     
     1.Monitorar Palavras
     2.Monitorar Palavras por arquivo
-    3.Exit/Quit
+    3.Server de Pesquisa
+    4.Exit/Quit
                                                                            
           ''' + bcolors.ENDC)
     
@@ -150,8 +153,49 @@ while ans:
         l = StreamListener()
         streamer = tweepy.Stream(auth=auth1, listener=l)
         streamer.filter(track = setTerms)  
-          
     elif ans=="3":
+        sys.exc_clear
+        print('''                                                                         
+  .--.--.                                                  
+ /  /    '.                                                
+|  :  /`. /             __  ,-.                    __  ,-. 
+;  |  |--`            ,' ,'/ /|    .---.         ,' ,'/ /| 
+|  :  ;_       ,---.  '  | |' |  /.  ./|  ,---.  '  | |' | 
+ \  \    `.   /     \ |  |   ,'.-' . ' | /     \ |  |   ,' 
+  `----.   \ /    /  |'  :  / /___/ \: |/    /  |'  :  /   
+  __ \  \  |.    ' / ||  | '  .   \  ' .    ' / ||  | '    
+ /  /`--'  /'   ;   /|;  : |   \   \   '   ;   /|;  : |    
+'--'.     / '   |  / ||  , ;    \   \  '   |  / ||  , ;    
+  `--'---'  |   :    | ---'      \   \ |   :    | ---'     
+             \   \  /             '---" \   \  /           
+              `----'                     `----'
+-----------------------------------------------------------------------------------
+- Esse modo o ''' + bcolors.OKBLUE + "ST4WA" + bcolors.ENDC + ''' ainda esta em ''' + bcolors.OKGREEN + "BETA" + bcolors.ENDC + '''!!
+
+- Ativando o Listening, ele vira um server de pesquisa, voce pode escolher receber
+receber o resultado de sua pesquisa por Whatsapp* ou por e-mail(So testei com GMAIL).
+
+- Para pesquisar, basta enviar as palavras que deseja via Whatsapp para o numero que
+registrou no Whatsapp que esta usando acima.
+
+* Para receber por Whatsapp o resultado, eh preciso configurar mais um numero do whatsapp
+para nao dar problemas de derrubar o whatsapp na hora que enviar as mensagens.
+
+A configuracao pode ser feita no arquivo Examples/configPesquisa.conf
+
+              ''')
+        servOpt=True
+        servOpt=raw_input("Deseja receber o resultado da pesquisa por qual meio?\n1.Whatsapp\n2.Email\n\n~//#")
+        while servOpt:
+            if servOpt=="1":
+                wa = WhatsappListenerClient('keepalive', 'autoack')
+                wa.login(username, password)
+            elif servOpt=="2":
+                wa = WhatsappListenerClientEmail('keepalive', 'autoack')
+                wa.login(username, password)
+            elif servOpt !="":
+                print(bcolors.WARNING + "\n Not Valid Choice Try again" + bcolors.ENDC)
+    elif ans=="4":
       break
     elif ans !="":
       print(bcolors.WARNING + "\n Not Valid Choice Try again" + bcolors.ENDC)

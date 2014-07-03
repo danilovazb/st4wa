@@ -25,6 +25,7 @@ parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.sys.path.insert(0,parentdir)
 import datetime, sys, base64
 import tweepy
+import smtplib
 
 if sys.version_info >= (3, 0):
 	raw_input = input
@@ -40,7 +41,7 @@ class bcolors:
     FAIL = '\033[91m'
     ENDC = '\033[0m' 
 
-class WhatsappListenerClient:
+class WhatsappListenerClientEmail:
 
 	def __init__(self, keepAlive = False, sendReceipts = False):
 		self.sendReceipts = sendReceipts
@@ -89,12 +90,14 @@ class WhatsappListenerClient:
 			print bcolors.WARNING + "\nO arquivo que voce tentou carregar nao existe ou foi digitado incorretamente!\n" + bcolors.ENDC
 		# Configura??o do yowsup para envio - Aconselho usar um numero diferente do st4wa para nao travar :)
 		###########################
-		password = configs[1].split(";")				#Password dada ao registrar o numero pelo yowsup.
-		password = str.format(password[1])
-		password = base64.b64decode(bytes(password.encode('utf-8')))	#Codificacao do Password para envio aos servidores do whatsApp.
-		username = configs[0].split(";")
-		username = username[1]						#Numero de telefone para o inicio de secao
-		keepAlive= False						#Conexao persistente com o servidor.
+		server = configs[8].split(";")				#Password dada ao registrar o numero pelo yowsup.
+		server = server[1]
+		porta = configs[9].split(";")
+		porta = porta[1]
+		email = configs[6].split(";")
+		email = email[1]						#Numero de telefone para o inicio de secao
+		senhaEmail = configs[7].split(";")
+		senhaEmail = senhaEmail[1]
 		#######################################################################################################
 		consumer_key = configs[2].split(";")
 		consumer_key = consumer_key[1]
@@ -120,8 +123,23 @@ class WhatsappListenerClient:
 					twit = result.text.encode('utf-8').strip()
 					uTwit = result.user.screen_name
 					mensagem = uTwit + ": " + twit
-	                                whats = WhatsappEchoClient("5511956579539", mensagem, keepAlive)
-					whats.login(username, password)
+					subject = 'Twitter sobre: ' + messageContent + ' - Data: ' + formattedDate
+					recipient = 'EMAILQUEVAIRECEBER@AQUI.com.br'
+	                                body = "" + mensagem + ""
+					headers = ["From: " + email,
+					           "Subject: " + subject,
+					           "To: " + recipient,
+					           "MIME-Version: 1.0",
+					           "Content-Type: text/html"]
+					headers = "\r\n".join(headers)
+					session = smtplib.SMTP(server, porta)
+					session.ehlo()
+					session.starttls()
+					session.ehlo
+					session.login(email, senhaEmail)
+					session.sendmail(email, recipient, headers + "\r\n\r\n" + body)
+					session.quit()
+
                 except IndexError, erro:
                         print '%s' % erro
 
