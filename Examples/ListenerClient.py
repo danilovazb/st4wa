@@ -120,7 +120,7 @@ class WhatsappListenerClient:
 					twit = result.text.encode('utf-8').strip()
 					uTwit = result.user.screen_name
 					mensagem = uTwit + ": " + twit
-	                                whats = WhatsappEchoClient("5511956579539", mensagem, keepAlive)
+	                                whats = WhatsappEchoClient("", mensagem, keepAlive)
 					whats.login(username, password)
                 except IndexError, erro:
                         print '%s' % erro
