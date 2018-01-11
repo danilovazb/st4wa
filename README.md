@@ -1,6 +1,6 @@
 ST4WA - Stream Twitter 4 WhatsApp
 =====
-
+![img](https://media.giphy.com/media/sabTJ0AKAVU5O/giphy.gif "LOL")
 Getting tagged twitter hashtags via whatsapp.
 
 ## Requirements ##
